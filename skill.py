@@ -6,6 +6,12 @@ import logging
 import time
 import select
 
+#
+# GameState and GameStateCheap
+# have been  extracted and adapted from https://raw.githubusercontent.com/erkyrath/plotex/master/regtest.py
+# This script is in the public domaine <see http://eblong.com/zarf/plotex/regtest.html> for details  
+#
+
 class SimpleCommand:
   def __init__(self, text):
     self.cmd = text
@@ -147,29 +153,57 @@ def on_start_interactive_fiction(req):
   global proc
   global game_state
   zvm_path = req.agent.settings.get('zvm_path', section='interactive fiction')
-  if not zvm_path:
-    req.agent.answer(req._('You must provide the zvm path. Please have a look to the skill specific installation procedure'))
-    req.agent.done()
-  
-  game_directory = req.agent.settings.get('game_directory', section='interactive fiction')
-  if not zvm_path:
-    req.agent.answer(req._('You must provide the games directory. Please have a look to the skill specific installation procedure'))
-    req.agent.done()
-    
-  # Using the pytlas API to communicate with the user: https://pytlas.readthedocs.io/en/latest/writing_skills/handler.html
-  game_filename = req.intent.slot('filename').first().value
-  if not game_filename:
-    req.agent.ask('filename',req._('wich fiction would you play?'))
+  zvm_path = "zvm" if not zvm_path else zvm_path
+  save_directory = req.agent.settings.get('save_directory', section='interactive fiction')
+  if save_directory == None:
+    empty_save_directory_confirmed = req.intent.slot('empty_save_directory_confirmed').first().value
+    if empty_save_directory_confirmed == None:
+      return req.agent.ask('empty_save_directory_confirmed',\
+        req._('Save directory has not been set.You can set the save directory in the pytlas settings under the item "save_directory" in the "interactive section".\nYour game save will be writen in the current directory "{0}".\nDo you want continue?').format(os.getcwd()),\
+        ['yes','no'])
+    if not empty_save_directory_confirmed:
+      req.agent.done()
+      return
+    else:
+      save_directory  = os.getcwd()
 
-  game_path = game_directory+'/'+game_filename
-  if not os.path.isfile(game_path):    
-    req.agent.answer(req._('Game file not found ({0})'.format(game_path)))
+  story_directory = req.agent.settings.get('story_directory', section='interactive fiction')
+  if story_directory == None:
+    empty_story_directory_confirmed = req.intent.slot('empty_story_directory_confirmed').first().value
+    if empty_story_directory_confirmed == None:
+      return req.agent.ask('empty_story_directory_confirmed',\
+        req._('Story directory has not been set.You can set the story directory in the pytlas settings under the item "story_directory" in the "interactive section".\nStories will be searched in the current directory "{0}".\nDo you want continue?').format(os.getcwd()),\
+        ['yes','no'])
+    if not empty_story_directory_confirmed:
+      req.agent.answer(req._(''))
+      req.agent.done()
+      return
+    else:
+      story_directory  = os.getcwd()
+
+  story_filename = req.intent.slot('filename').first().value
+  if not story_filename:
+    req.agent.ask('filename',req._('Wich fiction would you play?'))
+
+  story_path = os.path.join(story_directory,story_filename)
+  if not os.path.isfile(story_path):    
+    req.agent.answer(req._('Sorry, no story named {0} has been found in {1}.'.format(story_filename, story_directory)))
     req.agent.done
 
-  args = [zvm_path]+[game_path]
-  proc = subprocess.Popen(args,
-                      bufsize=0,
-                      stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+  args = [zvm_path]+[story_path]
+  try:
+    proc = subprocess.Popen(args,
+                        bufsize=0,
+                        stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                        cwd=save_directory)
+  except Exception as ex:
+    req.agent.answer(req._('Unable to start {0} : {1}'.format(zvm_path, ex)))
+    req.agent.done
+  if not proc:
+    req.agent.answer(req._('Unable to start {0}'.format(zvm_path)))
+    req.agent.done
+
+
   game_state = GameStateCheap(proc.stdin, proc.stdout, 1.0, False)
   game_state.initialize()
   res = game_state.accept_output()
