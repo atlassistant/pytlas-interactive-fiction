@@ -1,4 +1,5 @@
 from pytlas import training, translations, intent, meta
+from pytlas.handling.hooks import on_agent_created, on_agent_destroyed
 import sys
 import os
 import subprocess
@@ -97,17 +98,6 @@ class GameStateCheap(GameState):
         return dat.strip()
 
 
-proc = None
-game_state = None
-
-# Hey there o/
-# Glad you're taking some times to make a skill for the pytlas assistant!
-# Here is all you have to know to make your own skills, let's go!
-
-# Start by defining training data used to trigger your skill.
-# Here we are defining the TEMPLATE_SKILL_INTENT with some training data.
-# In english:
-
 @training('en')
 def en_training(): return """
 %[start_interactive_fiction]
@@ -133,9 +123,6 @@ def en_training(): return """
   my_save
 """
 
-# Let's define some metadata for this skill. This step is optional but enables
-# pytlas to list loaded skills with more informations:
-
 @meta()
 def skill_meta(_): return {
   'name': _('interactive fiction skill'),
@@ -145,76 +132,116 @@ def skill_meta(_): return {
   'homepage': 'https://github.com/atlassistant/pytlas-template',
 }
 
-# The final part is your handler registered to be called upon TEMPLATE_SKILL_INTENT
-# recognition by the pytlas interpreter.
+agents = {}
+
+def clean(agt):
+  global agents
+  if agt.id in agents:
+    agents[agt.id]["game_state"] = None
+    proc = agents[agt.id]["proc"]
+    proc.stdin.close()
+    proc.stdout.close()
+    proc.kill()
+    proc.poll()
+    agents[agt.id]["proc"] = None
+    agents.pop(agt.id,None)
+
+
+@on_agent_created()
+def when_an_agent_is_created(agt):
+  # On conserve une référence à l'agent
+  global agents
+  agents[agt.id] = {"proc":None,"game_state":None}
+
+@on_agent_destroyed()
+def when_an_agent_is_destroyed(agt):
+  # On devrait clear les timers pour l'agent à ce moment là
+  global agents
+  clean(agt.id)
+
 
 @intent('start_interactive_fiction')
 def on_start_interactive_fiction(req):
-  global proc
-  global game_state
+  global agents
+  agent_id = req.agent.id
+  if not agent_id in agents:
+    when_an_agent_is_created(req.agent)
+
   zvm_path = req.agent.settings.get('zvm_path', section='interactive fiction')
   zvm_path = "zvm" if not zvm_path else zvm_path
-  save_directory = req.agent.settings.get('save_directory', section='interactive fiction')
-  if save_directory == None:
-    empty_save_directory_confirmed = req.intent.slot('empty_save_directory_confirmed').first().value
-    if empty_save_directory_confirmed == None:
-      return req.agent.ask('empty_save_directory_confirmed',\
-        req._('Save directory has not been set.You can set the save directory in the pytlas settings under the item "save_directory" in the "interactive section".\nYour game save will be writen in the current directory "{0}".\nDo you want continue?').format(os.getcwd()),\
+  game_saves_folder = req.agent.settings.get('game_saves_folder', section='interactive fiction')
+  if game_saves_folder == None:
+    empty_game_saves_folder_confirmed = req.intent.slot('empty_game_saves_folder_confirmed').first().value
+    if empty_game_saves_folder_confirmed == None:
+      return req.agent.ask('empty_game_saves_folder_confirmed',\
+        req._('Game saves folder has not been set. Your game saves will be writen in the current folder "{0}".\nDo you want continue?').format(os.getcwd()),\
         ['yes','no'])
-    if not empty_save_directory_confirmed:
+    if empty_game_saves_folder_confirmed == 'no':
       req.agent.done()
       return
     else:
-      save_directory  = os.getcwd()
+      game_saves_folder  = os.getcwd()
 
-  story_directory = req.agent.settings.get('story_directory', section='interactive fiction')
-  if story_directory == None:
-    empty_story_directory_confirmed = req.intent.slot('empty_story_directory_confirmed').first().value
-    if empty_story_directory_confirmed == None:
-      return req.agent.ask('empty_story_directory_confirmed',\
-        req._('Story directory has not been set.You can set the story directory in the pytlas settings under the item "story_directory" in the "interactive section".\nStories will be searched in the current directory "{0}".\nDo you want continue?').format(os.getcwd()),\
+  stories_folder = req.agent.settings.get('stories_folder', section='interactive fiction')
+  if stories_folder == None:
+    empty_stories_folder_confirmed = req.intent.slot('empty_stories_folder_confirmed').first().value
+    if empty_stories_folder_confirmed == None:
+      return req.agent.ask('empty_stories_folder_confirmed',\
+        req._('Stories folder has not been set. Stories will be load from the current folder "{0}".\nDo you want continue?').format(os.getcwd()),\
         ['yes','no'])
-    if not empty_story_directory_confirmed:
-      req.agent.answer(req._(''))
+    if empty_stories_folder_confirmed == 'no':
       req.agent.done()
       return
     else:
-      story_directory  = os.getcwd()
+      stories_folder  = os.getcwd()
 
   story_filename = req.intent.slot('filename').first().value
   if not story_filename:
     req.agent.ask('filename',req._('Wich fiction would you play?'))
 
-  story_path = os.path.join(story_directory,story_filename)
+  story_path = os.path.join(stories_folder,story_filename)
   if not os.path.isfile(story_path):    
-    req.agent.answer(req._('Sorry, no story named {0} has been found in {1}.'.format(story_filename, story_directory)))
-    req.agent.done
+    req.agent.answer(req._('Sorry, no story named {0} has been found in {1}.'.format(story_filename, stories_folder)))
+    req.agent.done()
+    return
 
   args = [zvm_path]+[story_path]
   try:
     proc = subprocess.Popen(args,
                         bufsize=0,
                         stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                        cwd=save_directory)
+                        cwd=game_saves_folder)
   except Exception as ex:
     req.agent.answer(req._('Unable to start {0} : {1}'.format(zvm_path, ex)))
-    req.agent.done
+    req.agent.done()
+    return
   if not proc:
     req.agent.answer(req._('Unable to start {0}'.format(zvm_path)))
-    req.agent.done
-
+    req.agent.done()
+    return
 
   game_state = GameStateCheap(proc.stdin, proc.stdout, 1.0, False)
   game_state.initialize()
   res = game_state.accept_output()
+
+  agents[agent_id]["proc"] = proc
+  agents[agent_id]["game_state"] = game_state 
+
   req.agent.context('interactive_fiction')
   req.agent.answer(req._(res))
   req.agent.done()
 
 @intent('interactive_fiction/save')
 def on_save(req):
-  global proc
-  global game_state
+  global agents
+  agent_id = req.agent.id
+  if not agent_id in agents:
+    req.agent.answer("Panic! No game found")
+    req.agent.done()
+    return
+
+  game_state = agents[agent_id]["game_state"]
+
   save_name = req.intent.slot('save_name').first().value
   if not save_name:
     req.agent.ask('save_name',req._('Please enter a name'))
@@ -227,8 +254,15 @@ def on_save(req):
 
 @intent('interactive_fiction/restore')
 def on_restore(req):
-  global proc
-  global game_state
+  global agents
+  agent_id = req.agent.id
+  if not agent_id in agents:
+    req.agent.answer("Panic! No game found")
+    req.agent.done()
+    return
+
+  game_state = agents[agent_id]["game_state"]
+
   save_name = req.intent.slot('save_name').first().value
   if not save_name:
     req.agent.ask('save_name',req._('Please enter a name'))
@@ -241,21 +275,22 @@ def on_restore(req):
 
 @intent('interactive_fiction/quit')
 def on_quit(req):
-  global proc
-  global game_state
-  game_state = None
-  proc.stdin.close()
-  proc.stdout.close()
-  proc.kill()
-  proc.poll()
+  clean(req.agent)
   req.agent.context(None)
   req.agent.answer(req._('Goodbye'))
   req.agent.done()
 
 @intent('interactive_fiction/__fallback__')
 def on_standard_input(req):
-  global proc
-  global game_state
+  global agents
+  agent_id = req.agent.id
+  if not agent_id in agents:
+    req.agent.answer("Panic! No game found")
+    req.agent.done()
+    return
+
+  game_state = agents[agent_id]["game_state"]
+
   content = req.intent.slot('text').first().value
   game_state.perform_input(SimpleCommand(content))
   res = game_state.accept_output()
