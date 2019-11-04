@@ -1,17 +1,10 @@
-from pytlas import training, translations, intent, meta
-from pytlas.handling.hooks import on_agent_created, on_agent_destroyed
-import sys
 import os
+import sys
 import subprocess
-import logging
 import time
 import select
-
-#
-# GameState and GameStateCheap
-# have been  extracted and adapted from https://raw.githubusercontent.com/erkyrath/plotex/master/regtest.py
-# This script is in the public domaine <see http://eblong.com/zarf/plotex/regtest.html> for details  
-#
+from pytlas import training, translations, intent, meta
+from pytlas.handling.hooks import on_agent_created, on_agent_destroyed
 
 class SimpleCommand:
   def __init__(self, text):
@@ -58,7 +51,7 @@ class GameStateCheap(GameState):
     It can only handle line input (not character input).
     """
     def __init__(self, infile, outfile,timeout_secs, verbose):
-      GameState.__init__(self,infile, outfile)
+      super().__init__(infile, outfile)
       self.timeout_secs = timeout_secs
       self.verbose = verbose
 
@@ -97,30 +90,32 @@ class GameStateCheap(GameState):
         self.storywin = res
         return dat.strip()
 
-
 @training('en')
-def en_training(): return """
+def en_data(): return """
 %[start_interactive_fiction]
+  play interactive fiction
   let's play to an interactive fiction
-  open the fiction @[filename]
-  start the fiction @[filename]
-
-%[interactive_fiction/quit]
-  quit
-
-%[interactive_fiction/save]
-  save @[save_name]
-
-%[interactive_fiction/restore]
-  restore @[save_name]
+  start the interactive fiction named @[filename]
 
 @[filename]
   LostPig.z8
-  minizork.z3
+"""
+
+"""
+%[interactive_fiction/quit]
+  I quit now
+
+%[interactive_fiction/save]
+  could you save the game to @[save_name]
+
+%[interactive_fiction/restore]
+  could you restore the game @[save_name]
+
+@[filename]
+  LostPig.z8
 
 @[save_name]
-  save1
-  my_save
+  in_the_wood
 """
 
 @meta()
@@ -134,15 +129,17 @@ def skill_meta(_): return {
 
 agents = {}
 
+
 def clean(agt):
   global agents
   if agt.id in agents:
     agents[agt.id]["game_state"] = None
     proc = agents[agt.id]["proc"]
-    proc.stdin.close()
-    proc.stdout.close()
-    proc.kill()
-    proc.poll()
+    if proc != None:
+      proc.stdin.close()
+      proc.stdout.close()
+      proc.kill()
+      proc.poll()
     agents[agt.id]["proc"] = None
     agents.pop(agt.id,None)
 
@@ -157,8 +154,7 @@ def when_an_agent_is_created(agt):
 def when_an_agent_is_destroyed(agt):
   # On devrait clear les timers pour l'agent à ce moment là
   global agents
-  clean(agt.id)
-
+  clean(agt)
 
 @intent('start_interactive_fiction')
 def on_start_interactive_fiction(req):
@@ -219,18 +215,16 @@ def on_start_interactive_fiction(req):
     req.agent.answer(req._('Unable to start {0}'.format(zvm_path)))
     req.agent.done()
     return
-
   game_state = GameStateCheap(proc.stdin, proc.stdout, 1.0, False)
   game_state.initialize()
   res = game_state.accept_output()
-
   agents[agent_id]["proc"] = proc
   agents[agent_id]["game_state"] = game_state 
-
   req.agent.context('interactive_fiction')
   req.agent.answer(req._(res))
   req.agent.done()
 
+"""
 @intent('interactive_fiction/save')
 def on_save(req):
   global agents
@@ -245,8 +239,8 @@ def on_save(req):
   save_name = req.intent.slot('save_name').first().value
   if not save_name:
     req.agent.ask('save_name',req._('Please enter a name'))
-  game_state.perform_input(SimpleCommand("save"))
-  game_state.perform_input(SimpleCommand(save_name))
+  #game_state.perform_input(SimpleCommand("save"))
+  #game_state.perform_input(SimpleCommand(save_name))
   res = game_state.accept_output()
   logging.getLogger("interactive_fiction").info(res)
   req.agent.answer(req._(res))
@@ -266,8 +260,8 @@ def on_restore(req):
   save_name = req.intent.slot('save_name').first().value
   if not save_name:
     req.agent.ask('save_name',req._('Please enter a name'))
-  game_state.perform_input(SimpleCommand("restore"))
-  game_state.perform_input(SimpleCommand(save_name))
+  #game_state.perform_input(SimpleCommand("restore"))
+  #game_state.perform_input(SimpleCommand(save_name))
   res = game_state.accept_output()
   logging.getLogger("interactive_fiction").info(res)
   req.agent.answer(req._(res))
@@ -292,7 +286,8 @@ def on_standard_input(req):
   game_state = agents[agent_id]["game_state"]
 
   content = req.intent.slot('text').first().value
-  game_state.perform_input(SimpleCommand(content))
+  #game_state.perform_input(SimpleCommand(content))
   res = game_state.accept_output()
   req.agent.answer(req._(res))
   req.agent.done()
+"""
