@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Skein rootNode="node-0x18e9300" xmlns="http://www.logicalshift.org.uk/IF/Skein">
+  <generator>Inform 7</generator>
+  <activeNode nodeId="node-0x18e9300"/>
+  <item nodeId="node-0x18e9300">
+    <command xml:space="preserve">- start -</command>
+    <result xml:space="preserve">
+
+
+
+Test
+An Interactive Fiction by lekstonjm
+Release 1 / Serial number 191106 / Inform 7 build 6M62 (I6/v6.33 lib 6/12N) SD
+
+World
+Hello world!
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>YES</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+    <children>
+      <child nodeId="node-0x18e9d80"/>
+    </children>
+  </item>
+  <item nodeId="node-0x18e9d80">
+    <command xml:space="preserve">help</command>
+    <result xml:space="preserve">That&apos;s not a verb I recognise.
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+    <children>
+      <child nodeId="node-0x18e9f00"/>
+    </children>
+  </item>
+  <item nodeId="node-0x18e9f00">
+    <command xml:space="preserve">exit</command>
+    <result xml:space="preserve">But you aren&apos;t in anything at the moment.
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+    <children>
+      <child nodeId="node-0x7fa5e40df130"/>
+    </children>
+  </item>
+  <item nodeId="node-0x7fa5e40df130">
+    <command xml:space="preserve">quit</command>
+    <result xml:space="preserve">Are you sure you want to quit? </result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+    <children>
+      <child nodeId="node-0x7fa5e40df2b0"/>
+    </children>
+  </item>
+  <item nodeId="node-0x7fa5e40df2b0">
+    <command xml:space="preserve">yes</command>
+    <result xml:space="preserve">
+[ The game has finished ]
+</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+  </item>
+</Skein>

@@ -163,9 +163,10 @@ def on_start_interactive_fiction(req):
   if not agent_id in agents:
     when_an_agent_is_created(req.agent)
 
-  zvm_path = req.agent.settings.get('zvm_path', section='interactive fiction')
+  zvm_path = req.agent.settings.get('zvm_path', section='interactive_fiction')
   zvm_path = "zvm" if not zvm_path else zvm_path
-  game_saves_folder = req.agent.settings.get('game_saves_folder', section='interactive fiction')
+  game_saves_folder = req.agent.settings.get('game_saves_folder', section='interactive_fiction')
+  req.agent._logger.info(req.agent.settings._data)
   if game_saves_folder == None:
     empty_game_saves_folder_confirmed = req.intent.slot('empty_game_saves_folder_confirmed').first().value
     if empty_game_saves_folder_confirmed == None:
@@ -178,7 +179,7 @@ def on_start_interactive_fiction(req):
     else:
       game_saves_folder  = os.getcwd()
 
-  stories_folder = req.agent.settings.get('stories_folder', section='interactive fiction')
+  stories_folder = req.agent.settings.get('stories_folder', section='interactive_fiction')
   if stories_folder == None:
     empty_stories_folder_confirmed = req.intent.slot('empty_stories_folder_confirmed').first().value
     if empty_stories_folder_confirmed == None:
