@@ -98,7 +98,9 @@ def en_data(): return """
   start the interactive fiction named @[filename]
 
 @[filename]
-  LostPig.z8
+  filename.zblorb
+  filename.z5
+  filename.z8
 """
 
 """
