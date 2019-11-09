@@ -1,12 +1,12 @@
 Debugging log of Inform 7
-Inform called as: /home/jm/.local/libexec/ni --release --internal /home/jm/.local/share/inform7/Internal --format=z8 --project /home/jm/Desktop/pytlas-skills/dev/pytlas_interactive_fiction/test/test.inform
-Found language bundle 'German' (built in)
-Found language bundle 'Italian' (built in)
-Found language bundle 'Swedish' (built in)
+Inform called as: /usr/lib/x86_64-linux-gnu/gnome-inform7/ni -internal /usr/share/gnome-inform7 -format=z8 -project /home/jm/Bureau/Projets/pytlas_skills/dev/pytlas_interactive_fiction/test/test.inform -release
 Found language bundle 'French' (built in)
+Found language bundle 'German' (built in)
 Found language bundle 'English' (built in)
+Found language bundle 'Swedish' (built in)
 Found language bundle 'Spanish' (built in)
-Reading language definition from </home/jm/.local/share/inform7/Internal/Languages/English/Syntax.preform>
+Found language bundle 'Italian' (built in)
+Reading language definition from </usr/share/gnome-inform7/Languages/English/Syntax.preform>
 720 declarations read (14183 words)
 
 
@@ -14,7 +14,7 @@ Reading language definition from </home/jm/.local/share/inform7/Internal/Languag
 Phase I ... Lexical analysis
 -----------------------------------------------------
 
-I've now read your source text, which is 10 words long.
+I've now read your source text, which is 24 words long.
 
 
 -----------------------------------------------------
@@ -175,7 +175,7 @@ Phase XIII ... Compilation now complete
 -----------------------------------------------------
 
 Total of 102 files written as streams.
-CPU time: 55 centiseconds
+CPU time: 114 centiseconds
 
 
 That concludes the debugging log from this run of Inform.

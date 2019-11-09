@@ -42,7 +42,7 @@ Global Story = BC_0;
 Constant Headline BC_1;
 Constant Story_Author BC_2;
 Release 1;
-Serial "191106";
+Serial "191109";
 
 Default Story 0;
 Default Headline 0;
@@ -4401,7 +4401,7 @@ Global lightflag = false;
 ! ListWriter.i6t: Memory
 ! ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-Constant REQUISITION_STACK_SIZE = 3*14;
+Constant REQUISITION_STACK_SIZE = 3*15;
 Array requisition_stack --> REQUISITION_STACK_SIZE;
 Global requisition_stack_pointer = 0;
 
@@ -10124,12 +10124,12 @@ Constant REL_BLOCK_HEADER ($100*6 + $$1101)*$10000;
     value ! Implied call parameter
     ;
     switch(value) {
-        I71_german_language: print "German language";
-        I72_italian_language: print "Italian language";
-        I73_swedish_language: print "Swedish language";
-        I74_french_language: print "French language";
-        I75_english_language: print "English language";
-        I76_spanish_language: print "Spanish language";
+        I71_french_language: print "French language";
+        I72_german_language: print "German language";
+        I73_english_language: print "English language";
+        I74_swedish_language: print "Swedish language";
+        I75_spanish_language: print "Spanish language";
+        I76_italian_language: print "Italian language";
         default: print "<illegal natural language>";
     }
 ];
@@ -10411,7 +10411,7 @@ Constant REL_BLOCK_HEADER ($100*6 + $$1101)*$10000;
         44: return I77_figure_of_cover;
         45: return ;
         46: return ;
-        47: return I71_german_language;
+        47: return I71_french_language;
         48: return I80_didn_t_understand_error;
         49: return I106_present_tense;
         50: return I112_first_person_singular;
@@ -10588,7 +10588,7 @@ VPH_Class ValuePropertyHolder_47
     with p14_adaptive_text_viewpoint KOVP_47_P14
 ;
 ! Storage for property p14_adaptive_text_viewpoint of kind 
-Array KOVP_47_P14 table 0 0 (I112_first_person_singular) (I112_first_person_singular) (I112_first_person_singular) (I112_first_person_singular) (I115_first_person_plural) (I112_first_person_singular) ;
+Array KOVP_47_P14 table 0 0 (I112_first_person_singular) (I112_first_person_singular) (I115_first_person_plural) (I112_first_person_singular) (I112_first_person_singular) (I112_first_person_singular) ;
 Class K0_kind 
     has ~pluralname
     has ~proper
@@ -10820,10 +10820,10 @@ Object I51_north "" Compass
     with name 'north' 'directions//p' 'n//' 
     with parse_name Parse_Name_GV1
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I52_northeast
     with KD_Count 3
     with vector 0
     with IK3_Count 0
-    with IK3_Link I52_northeast
     with short_name BC_93
     with article BC_94
     with p10_opposite I54_south
@@ -10836,10 +10836,10 @@ Object I52_northeast "" Compass
     with name 'northeast' 'directions//p' 'ne' 
     with parse_name Parse_Name_GV2
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I53_northwest
     with KD_Count 3
     with vector 0
     with IK3_Count 1
-    with IK3_Link I53_northwest
     with short_name BC_97
     with article BC_98
     with p10_opposite I56_southwest
@@ -10852,10 +10852,10 @@ Object I53_northwest "" Compass
     with name 'northwest' 'directions//p' 'nw' 
     with parse_name Parse_Name_GV3
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I54_south
     with KD_Count 3
     with vector 0
     with IK3_Count 2
-    with IK3_Link I54_south
     with short_name BC_101
     with article BC_102
     with p10_opposite I55_southeast
@@ -10868,10 +10868,10 @@ Object I54_south "" Compass
     with name 'south' 'directions//p' 's//' 
     with parse_name Parse_Name_GV4
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I55_southeast
     with KD_Count 3
     with vector 0
     with IK3_Count 3
-    with IK3_Link I55_southeast
     with short_name BC_105
     with article BC_106
     with p10_opposite I51_north
@@ -10884,10 +10884,10 @@ Object I55_southeast "" Compass
     with name 'southeast' 'directions//p' 'se' 
     with parse_name Parse_Name_GV5
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I56_southwest
     with KD_Count 3
     with vector 0
     with IK3_Count 4
-    with IK3_Link I56_southwest
     with short_name BC_109
     with article BC_110
     with p10_opposite I53_northwest
@@ -10900,10 +10900,10 @@ Object I56_southwest "" Compass
     with name 'southwest' 'directions//p' 'sw' 
     with parse_name Parse_Name_GV6
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I57_east
     with KD_Count 3
     with vector 0
     with IK3_Count 5
-    with IK3_Link I57_east
     with short_name BC_113
     with article BC_114
     with p10_opposite I52_northeast
@@ -10916,10 +10916,10 @@ Object I57_east "" Compass
     with name 'east' 'directions//p' 'e//' 
     with parse_name Parse_Name_GV7
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I58_west
     with KD_Count 3
     with vector 0
     with IK3_Count 6
-    with IK3_Link I58_west
     with short_name BC_117
     with article BC_118
     with p10_opposite I58_west
@@ -10932,10 +10932,10 @@ Object I58_west "" Compass
     with name 'west' 'directions//p' 'w//' 
     with parse_name Parse_Name_GV8
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I59_up
     with KD_Count 3
     with vector 0
     with IK3_Count 7
-    with IK3_Link I59_up
     with short_name BC_121
     with article BC_122
     with p10_opposite I57_east
@@ -10948,10 +10948,10 @@ Object I59_up "" Compass
     with name 'up' 'directions//p' 'u//' 
     with parse_name Parse_Name_GV9
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link I60_down
     with KD_Count 3
     with vector 0
     with IK3_Count 8
-    with IK3_Link I60_down
     with short_name BC_125
     with article BC_126
     with p10_opposite I60_down
@@ -10964,10 +10964,10 @@ Object I60_down "" Compass
     with name 'down' 'directions//p' 'd//' 
     with parse_name Parse_Name_GV10
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link in_obj
     with KD_Count 3
     with vector 0
     with IK3_Count 9
-    with IK3_Link in_obj
     with short_name BC_129
     with article BC_130
     with p10_opposite I59_up
@@ -10980,10 +10980,10 @@ Object in_obj "" Compass
     with name 'inside' 'directions//p' 'in' 
     with parse_name Parse_Name_GV11
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link out_obj
     with KD_Count 3
     with vector 0
     with IK3_Count 10
-    with IK3_Link out_obj
     with short_name BC_133
     with article BC_134
     with p10_opposite out_obj
@@ -10996,10 +10996,10 @@ Object out_obj "" Compass
     with name 'outside' 'directions//p' 'out' 
     with parse_name Parse_Name_GV12
     with action_bitmap 0 0 0 0 0 
+    with IK3_Link nothing
     with KD_Count 3
     with vector 0
     with IK3_Count 11
-    with IK3_Link nothing
     with short_name BC_137
     with article BC_138
     with p10_opposite in_obj
@@ -11021,7 +11021,7 @@ Object selfobj ""
     with cap_short_name BC_141
     has mark_as_thing
     with IK2_Count 0
-    with IK2_Link nothing
+    with IK2_Link I126_poster
     has concealed
     has proper
     has privately_named
@@ -11049,12 +11049,29 @@ Object I125_world ""
     with article BC_152
 ;
 
-Constant I71_german_language = 1;
-Constant I72_italian_language = 2;
-Constant I73_swedish_language = 3;
-Constant I74_french_language = 4;
-Constant I75_english_language = 5;
-Constant I76_spanish_language = 6;
+Object -> I126_poster ""
+    class K2_thing
+    with name 'poster' 'things//p' 
+    with action_bitmap 0 0 0 0 0 
+    with KD_Count 2
+    with vector 0
+    has mark_as_thing
+    with IK2_Count 1
+    with IK2_Link nothing
+    with short_name BC_153
+    with description BC_154
+    with initial BC_155
+    with list_together BC_156
+    with plural BC_157
+    with article BC_158
+;
+
+Constant I71_french_language = 1;
+Constant I72_german_language = 2;
+Constant I73_english_language = 3;
+Constant I74_swedish_language = 4;
+Constant I75_spanish_language = 5;
+Constant I76_italian_language = 6;
 Constant I77_figure_of_cover = 1;
 Constant I78_entire_game = 1;
 Constant I80_didn_t_understand_error = 1;
@@ -11100,12 +11117,12 @@ Constant I123_masculine_gender = 2;
 Constant I124_feminine_gender = 3;
 Array Global_Vars -->
   (false) ! 7 darkness witnessed
-  (BC_153) ! 25 command prompt
-  (I75_english_language) ! 29 language of play
-  (BC_154) ! 32 story author
-  (BC_155) ! 33 story headline
-  (BC_156) ! 34 story genre
-  (BC_157) ! 35 story description
+  (BC_159) ! 25 command prompt
+  (I73_english_language) ! 29 language of play
+  (BC_160) ! 32 story author
+  (BC_161) ! 33 story headline
+  (BC_162) ! 34 story genre
+  (BC_163) ! 35 story description
   (1) ! 36 release number
   (0) ! 37 story creation year
   (0) ! 45 locale paragraph count
@@ -11120,14 +11137,14 @@ Array Global_Vars -->
 
 
 Array T0_final_question_options table  tab_0_0 tab_0_1 tab_0_2 tab_0_3 tab_0_4;
-Array tab_0_0 table $0664 0 (BC_158) (BC_159) (BC_160) (BC_161) (BC_162) ;
+Array tab_0_0 table $0664 0 (BC_164) (BC_165) (BC_166) (BC_167) (BC_168) ;
 Array tab_0_1 table $0465 1 (0) (0) (1) (0) (0) ;
 Array tab_0_2 table $2066 2 (Consult_Grammar_93) (Consult_Grammar_94) (Consult_Grammar_95) (Consult_Grammar_96) (Consult_Grammar_97) ;
 Array tab_0_3 table $0067 3 (IMMEDIATELY_RESTART_VM_R) (IMMEDIATELY_RESTORE_SAVED_R) ( TABLE_NOVALUE) (IMMEDIATELY_QUIT_R) (IMMEDIATELY_UNDO_R) ;
 Array tab_0_4 table $0068 4 ( TABLE_NOVALUE) ( TABLE_NOVALUE) (V27_amusing_a_victorious_pla) ( TABLE_NOVALUE) ( TABLE_NOVALUE) ;
 Array T1_locale_priorities table  tab_1_0 tab_1_1;
-Array tab_1_0 table $0869 NULL ( TABLE_NOVALUE)  TABLE_NOVALUE;
-Array tab_1_1 table $446a 5 ( TABLE_NOVALUE)  TABLE_NOVALUE;
+Array tab_1_0 table $0869 NULL ( TABLE_NOVALUE)  TABLE_NOVALUE TABLE_NOVALUE;
+Array tab_1_1 table $446a 5 ( TABLE_NOVALUE)  TABLE_NOVALUE TABLE_NOVALUE;
 Array TB_Blanks -> 
   ! For table T0_final_question_options
   $00  ! Column 0
@@ -11137,7 +11154,7 @@ Array TB_Blanks ->
   $1b  ! Column 4
   
   ! For table T1_locale_priorities
-  $03  ! Column 1
+  $07  ! Column 1
   
   ! End of table
   NULL NULL;
@@ -27833,7 +27850,7 @@ Array FWMatrix --> NUM_ROOMS*NUM_ROOMS;
 ! Relations.i6t: Relation Route-Finding
 ! ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-Constant MAX_ROUTE_LENGTH = 14 + 32;
+Constant MAX_ROUTE_LENGTH = 15 + 32;
 
 [ RelationRouteTo relation from to count  handler;
 	if (count) {
@@ -48568,16 +48585,18 @@ Verb 'notify'
 
 
 
-Constant TX_PS_36 = ">";
+Constant TX_PS_38 = ">";
 Constant TX_PS_3 = "An Interactive Fiction";
 Constant TX_PS_33 = "As good-looking as ever.";
-Constant TX_PS_37 = "Fiction";
-Constant TX_PS_35 = "Hello world!";
-Constant TX_PS_41 = "QUIT";
-Constant TX_PS_38 = "RESTART";
-Constant TX_PS_39 = "RESTORE a saved game";
+Constant TX_PS_39 = "Fiction";
+Constant TX_PS_37 = "Hello world!";
+Constant TX_PS_36 = "Poster";
+Constant TX_PS_43 = "QUIT";
+Constant TX_PS_40 = "RESTART";
+Constant TX_PS_41 = "RESTORE a saved game";
+Constant TX_PS_35 = "Test room";
 Constant TX_PS_2 = "Test";
-Constant TX_PS_42 = "UNDO the last command";
+Constant TX_PS_44 = "UNDO the last command";
 Constant TX_PS_34 = "World";
 Constant TX_PS_32 = "Yourself";
 Constant TX_PS_9 = "animals";
@@ -48598,7 +48617,7 @@ Constant TX_PS_30 = "outside";
 Constant TX_PS_6 = "people";
 Constant TX_PS_13 = "player's holdalls";
 Constant TX_PS_16 = "regions";
-Constant TX_PS_40 = "see some suggestions for AMUSING things to do";
+Constant TX_PS_42 = "see some suggestions for AMUSING things to do";
 Constant TX_PS_22 = "south";
 Constant TX_PS_23 = "southeast";
 Constant TX_PS_24 = "southwest";
@@ -55812,15 +55831,21 @@ Array BC_150 --> PACKED_TEXT_STORAGE EMPTY_TEXT_PACKED;
 Array BC_151 --> PACKED_TEXT_STORAGE EMPTY_TEXT_PACKED;
 Array BC_152 --> PACKED_TEXT_STORAGE EMPTY_TEXT_PACKED;
 Array BC_153 --> PACKED_TEXT_STORAGE TX_PS_36;
-Array BC_154 --> PACKED_TEXT_STORAGE TX_PS_4;
-Array BC_155 --> PACKED_TEXT_STORAGE TX_PS_3;
-Array BC_156 --> PACKED_TEXT_STORAGE TX_PS_37;
+Array BC_154 --> PACKED_TEXT_STORAGE TX_PS_37;
+Array BC_155 --> PACKED_TEXT_STORAGE EMPTY_TEXT_PACKED;
+Array BC_156 --> PACKED_TEXT_STORAGE EMPTY_TEXT_PACKED;
 Array BC_157 --> PACKED_TEXT_STORAGE EMPTY_TEXT_PACKED;
-Array BC_158 --> PACKED_TEXT_STORAGE TX_PS_38;
-Array BC_159 --> PACKED_TEXT_STORAGE TX_PS_39;
-Array BC_160 --> PACKED_TEXT_STORAGE TX_PS_40;
-Array BC_161 --> PACKED_TEXT_STORAGE TX_PS_41;
-Array BC_162 --> PACKED_TEXT_STORAGE TX_PS_42;
+Array BC_158 --> PACKED_TEXT_STORAGE EMPTY_TEXT_PACKED;
+Array BC_159 --> PACKED_TEXT_STORAGE TX_PS_38;
+Array BC_160 --> PACKED_TEXT_STORAGE TX_PS_4;
+Array BC_161 --> PACKED_TEXT_STORAGE TX_PS_3;
+Array BC_162 --> PACKED_TEXT_STORAGE TX_PS_39;
+Array BC_163 --> PACKED_TEXT_STORAGE EMPTY_TEXT_PACKED;
+Array BC_164 --> PACKED_TEXT_STORAGE TX_PS_40;
+Array BC_165 --> PACKED_TEXT_STORAGE TX_PS_41;
+Array BC_166 --> PACKED_TEXT_STORAGE TX_PS_42;
+Array BC_167 --> PACKED_TEXT_STORAGE TX_PS_43;
+Array BC_168 --> PACKED_TEXT_STORAGE TX_PS_44;
 
 
 

@@ -97,27 +97,28 @@ def en_data(): return """
   let's play to an interactive fiction
   start the interactive fiction named @[filename]
 
+%[interactive_fiction/quit]
+  I quit now
+  quit the game
+
+%[interactive_fiction/save]
+  could you save the game to @[save_name]
+  save the game as @[save_name]
+  please save my game
+
+%[interactive_fiction/restore]
+  could you restore the game @[save_name]
+  restore the game @[save_name]
+
 @[filename]
   filename.zblorb
   filename.z5
   filename.z8
-"""
-
-"""
-%[interactive_fiction/quit]
-  I quit now
-
-%[interactive_fiction/save]
-  could you save the game to @[save_name]
-
-%[interactive_fiction/restore]
-  could you restore the game @[save_name]
-
-@[filename]
-  LostPig.z8
 
 @[save_name]
   in_the_wood
+  mysave
+
 """
 
 @meta()
@@ -210,8 +211,8 @@ def on_start_interactive_fiction(req):
                         bufsize=0,
                         stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                         cwd=game_saves_folder)
-  except Exception as ex:
-    req.agent.answer(req._('Unable to start {0} : {1}'.format(zvm_path, ex)))
+  except Exception as _ex:
+    req.agent.answer(req._('Unable to start {0}'.format(zvm_path)))
     req.agent.done()
     return
   if not proc:
@@ -226,49 +227,6 @@ def on_start_interactive_fiction(req):
   req.agent.context('interactive_fiction')
   req.agent.answer(req._(res))
   req.agent.done()
-
-"""
-@intent('interactive_fiction/save')
-def on_save(req):
-  global agents
-  agent_id = req.agent.id
-  if not agent_id in agents:
-    req.agent.answer("Panic! No game found")
-    req.agent.done()
-    return
-
-  game_state = agents[agent_id]["game_state"]
-
-  save_name = req.intent.slot('save_name').first().value
-  if not save_name:
-    req.agent.ask('save_name',req._('Please enter a name'))
-  #game_state.perform_input(SimpleCommand("save"))
-  #game_state.perform_input(SimpleCommand(save_name))
-  res = game_state.accept_output()
-  logging.getLogger("interactive_fiction").info(res)
-  req.agent.answer(req._(res))
-  req.agent.done()  
-
-@intent('interactive_fiction/restore')
-def on_restore(req):
-  global agents
-  agent_id = req.agent.id
-  if not agent_id in agents:
-    req.agent.answer("Panic! No game found")
-    req.agent.done()
-    return
-
-  game_state = agents[agent_id]["game_state"]
-
-  save_name = req.intent.slot('save_name').first().value
-  if not save_name:
-    req.agent.ask('save_name',req._('Please enter a name'))
-  #game_state.perform_input(SimpleCommand("restore"))
-  #game_state.perform_input(SimpleCommand(save_name))
-  res = game_state.accept_output()
-  logging.getLogger("interactive_fiction").info(res)
-  req.agent.answer(req._(res))
-  req.agent.done()  
 
 @intent('interactive_fiction/quit')
 def on_quit(req):
@@ -289,8 +247,47 @@ def on_standard_input(req):
   game_state = agents[agent_id]["game_state"]
 
   content = req.intent.slot('text').first().value
-  #game_state.perform_input(SimpleCommand(content))
+  game_state.perform_input(SimpleCommand(content))
   res = game_state.accept_output()
   req.agent.answer(req._(res))
   req.agent.done()
-"""
+
+@intent('interactive_fiction/save')
+def on_save(req):
+  global agents
+  agent_id = req.agent.id
+  if not agent_id in agents:
+    req.agent.answer("Panic! No game found")
+    req.agent.done()
+    return
+
+  game_state = agents[agent_id]["game_state"]
+
+  save_name = req.intent.slot('save_name').first().value
+  if not save_name:
+    req.agent.ask('save_name',req._('Please enter a name'))
+  game_state.perform_input(SimpleCommand("save"))
+  game_state.perform_input(SimpleCommand(save_name))
+  res = game_state.accept_output()
+  req.agent.answer(req._(res))
+  req.agent.done()  
+
+@intent('interactive_fiction/restore')
+def on_restore(req):
+  global agents
+  agent_id = req.agent.id
+  if not agent_id in agents:
+    req.agent.answer("Panic! No game found")
+    req.agent.done()
+    return
+
+  game_state = agents[agent_id]["game_state"]
+
+  save_name = req.intent.slot('save_name').first().value
+  if not save_name:
+    req.agent.ask('save_name',req._('Please enter a name'))
+  game_state.perform_input(SimpleCommand("restore"))
+  game_state.perform_input(SimpleCommand(save_name))
+  res = game_state.accept_output()
+  req.agent.answer(req._(res))
+  req.agent.done()  

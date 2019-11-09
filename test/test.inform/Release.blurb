@@ -1,20 +1,20 @@
 ! Blurb file created by Inform build 6M62
 
-status "/home/jm/.local/share/inform7/Internal/Miscellany/CblorbModel.html" "/home/jm/Desktop/pytlas-skills/dev/pytlas_interactive_fiction/test/test.inform/Build/StatusCblorb.html"
+status "/usr/share/gnome-inform7/Miscellany/CblorbModel.html" "/home/jm/Bureau/Projets/pytlas_skills/dev/pytlas_interactive_fiction/test/test.inform/Build/StatusCblorb.html"
 
 
 ! Identification
 
-project folder "/home/jm/Desktop/pytlas-skills/dev/pytlas_interactive_fiction/test/test.inform"
-release to "/home/jm/Desktop/pytlas-skills/dev/pytlas_interactive_fiction/test/test.materials/Release"
+project folder "/home/jm/Bureau/Projets/pytlas_skills/dev/pytlas_interactive_fiction/test/test.inform"
+release to "/home/jm/Bureau/Projets/pytlas_skills/dev/pytlas_interactive_fiction/test/test.materials/Release"
 
 ! Blorb instructions
 
 storyfile leafname "Test.zblorb"
-storyfile "/home/jm/Desktop/pytlas-skills/dev/pytlas_interactive_fiction/test/test.inform/Build/output.z8" include
-ifiction "/home/jm/Desktop/pytlas-skills/dev/pytlas_interactive_fiction/test/test.inform/Metadata.iFiction" include
-cover "/home/jm/.local/share/inform7/Internal/Miscellany/Cover.jpg"
-picture 1 "/home/jm/.local/share/inform7/Internal/Miscellany/Cover.jpg"
+storyfile "/home/jm/Bureau/Projets/pytlas_skills/dev/pytlas_interactive_fiction/test/test.inform/Build/output.z8" include
+ifiction "/home/jm/Bureau/Projets/pytlas_skills/dev/pytlas_interactive_fiction/test/test.inform/Metadata.iFiction" include
+cover "/usr/share/gnome-inform7/Miscellany/Cover.jpg"
+picture 1 "/usr/share/gnome-inform7/Miscellany/Cover.jpg"
 
 ! Placeholder variables
 

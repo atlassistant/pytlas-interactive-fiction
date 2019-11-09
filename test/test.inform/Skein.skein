@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Skein rootNode="node-0x18e9300" xmlns="http://www.logicalshift.org.uk/IF/Skein">
+<Skein rootNode="node-0x2c3f450" xmlns="http://www.logicalshift.org.uk/IF/Skein">
   <generator>Inform 7</generator>
-  <activeNode nodeId="node-0x18e9300"/>
-  <item nodeId="node-0x18e9300">
+  <activeNode nodeId="node-0x5351c10"/>
+  <item nodeId="node-0x2c3f450">
     <command xml:space="preserve">- start -</command>
     <result xml:space="preserve">
 
@@ -10,10 +10,12 @@
 
 Test
 An Interactive Fiction by lekstonjm
-Release 1 / Serial number 191106 / Inform 7 build 6M62 (I6/v6.33 lib 6/12N) SD
+Release 1 / Serial number 191109 / Inform 7 build 6M62 (I6/v6.33 lib 6/12N) SD
 
 World
-Hello world!
+Test room
+
+You can see a Poster here.
 
 &gt;</result>
     <commentary xml:space="preserve"></commentary>
@@ -22,10 +24,13 @@ Hello world!
     <temporary score="0">YES</temporary>
     <annotation xml:space="preserve"></annotation>
     <children>
-      <child nodeId="node-0x18e9d80"/>
+      <child nodeId="node-0x2c3f5d0"/>
+      <child nodeId="node-0x5351490"/>
+      <child nodeId="node-0x5351910"/>
+      <child nodeId="node-0x5351d90"/>
     </children>
   </item>
-  <item nodeId="node-0x18e9d80">
+  <item nodeId="node-0x2c3f5d0">
     <command xml:space="preserve">help</command>
     <result xml:space="preserve">That&apos;s not a verb I recognise.
 
@@ -36,10 +41,10 @@ Hello world!
     <temporary score="0">YES</temporary>
     <annotation xml:space="preserve"></annotation>
     <children>
-      <child nodeId="node-0x18e9f00"/>
+      <child nodeId="node-0x2c3f750"/>
     </children>
   </item>
-  <item nodeId="node-0x18e9f00">
+  <item nodeId="node-0x2c3f750">
     <command xml:space="preserve">exit</command>
     <result xml:space="preserve">But you aren&apos;t in anything at the moment.
 
@@ -50,10 +55,10 @@ Hello world!
     <temporary score="0">YES</temporary>
     <annotation xml:space="preserve"></annotation>
     <children>
-      <child nodeId="node-0x7fa5e40df130"/>
+      <child nodeId="node-0x2c3f8d0"/>
     </children>
   </item>
-  <item nodeId="node-0x7fa5e40df130">
+  <item nodeId="node-0x2c3f8d0">
     <command xml:space="preserve">quit</command>
     <result xml:space="preserve">Are you sure you want to quit? </result>
     <commentary xml:space="preserve"></commentary>
@@ -62,16 +67,105 @@ Hello world!
     <temporary score="0">YES</temporary>
     <annotation xml:space="preserve"></annotation>
     <children>
-      <child nodeId="node-0x7fa5e40df2b0"/>
+      <child nodeId="node-0x2c3fa50"/>
     </children>
   </item>
-  <item nodeId="node-0x7fa5e40df2b0">
+  <item nodeId="node-0x2c3fa50">
     <command xml:space="preserve">yes</command>
     <result xml:space="preserve">
 [ The game has finished ]
 </result>
     <commentary xml:space="preserve"></commentary>
     <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+  </item>
+  <item nodeId="node-0x5351490">
+    <command xml:space="preserve">tell Sybil hello</command>
+    <result xml:space="preserve">I didn&apos;t understand that sentence.
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+    <children>
+      <child nodeId="node-0x5351610"/>
+    </children>
+  </item>
+  <item nodeId="node-0x5351610">
+    <command xml:space="preserve">tell Sybil about hello</command>
+    <result xml:space="preserve">There is no reply.
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+    <children>
+      <child nodeId="node-0x5351790"/>
+    </children>
+  </item>
+  <item nodeId="node-0x5351790">
+    <command xml:space="preserve">tell Sybil about persians</command>
+    <result xml:space="preserve">She nods gravely.
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+  </item>
+  <item nodeId="node-0x5351910">
+    <command xml:space="preserve">tell Sybil about Hello</command>
+    <result xml:space="preserve">Hello world!
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+    <children>
+      <child nodeId="node-0x5351a90"/>
+    </children>
+  </item>
+  <item nodeId="node-0x5351a90">
+    <command xml:space="preserve">tell Sybil Hello</command>
+    <result xml:space="preserve">I didn&apos;t understand that sentence.
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>NO</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+  </item>
+  <item nodeId="node-0x5351d90">
+    <command xml:space="preserve">examin the Poster</command>
+    <result xml:space="preserve">That&apos;s not a verb I recognise.
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>YES</played>
+    <changed>YES</changed>
+    <temporary score="0">YES</temporary>
+    <annotation xml:space="preserve"></annotation>
+    <children>
+      <child nodeId="node-0x5351c10"/>
+    </children>
+  </item>
+  <item nodeId="node-0x5351c10">
+    <command xml:space="preserve">read the Poster</command>
+    <result xml:space="preserve">Hello world!
+
+&gt;</result>
+    <commentary xml:space="preserve"></commentary>
+    <played>YES</played>
     <changed>YES</changed>
     <temporary score="0">YES</temporary>
     <annotation xml:space="preserve"></annotation>
